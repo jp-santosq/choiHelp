@@ -6,17 +6,19 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Import screens
 import HomeScreen from './screens/HomeScreen';
 import DetailScreen from './screens/DetailScreen';
+import InfoElderly from './screens/InfoElderly';
+import EditElderly from './screens/EditElderly';
 // If you make VideoPlayerScreen a standalone screen, import it here.
 // import VideoPlayerScreen from './screens/VideoPlayerScreen';
 
 // --- Type Definitions for Navigation ---
 // This defines the available screens and the parameters they expect.
 export type RootStackParamList = {
-  Home: undefined; // The Home screen takes no parameters
-  Detail: { 
-    userId: string; 
-    userName: string; 
-  };
+  Home: undefined;
+  Detail: { userId: string; userName: string };
+  Info:   { userId: string; userName: string };
+  Edit: { userId: string; userName: string }; 
+  
   // Example if VideoPlayer were a screen:
   // VideoPlayer: { skeletonImages: number[]; fallTimestamp: string };
 };
@@ -28,27 +30,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen 
-          name="Home" 
-          component={HomeScreen} 
-          options={{ 
-            title: 'Monitoring Dashboard' // Screen title in the header
-          }} 
-        />
-        <Stack.Screen 
-          name="Detail" 
-          component={DetailScreen} 
-          options={{ 
-            title: 'Fall Incident Details' // Screen title in the header
-          }} 
-        />
-        {/*
-        <Stack.Screen 
-          name="VideoPlayer"
-          component={VideoPlayerScreen}
-          options={{ title: 'Event Playback' }}
-        />
-        */}
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Detail" component={DetailScreen} />
+        <Stack.Screen name="Info" component={InfoElderly} />
+        <Stack.Screen name="Edit" component={EditElderly} />
       </Stack.Navigator>
     </NavigationContainer>
   );
