@@ -6,8 +6,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Import screens
 import HomeScreen from './screens/HomeScreen';
 import DetailScreen from './screens/DetailScreen';
-// If you make VideoPlayerScreen a standalone screen, import it here.
-// import VideoPlayerScreen from './screens/VideoPlayerScreen';
 
 // --- Type Definitions for Navigation ---
 // This defines the available screens and the parameters they expect.
@@ -15,7 +13,7 @@ export type RootStackParamList = {
   Home: undefined; // The Home screen takes no parameters
   Detail: { 
     userId: string; 
-    userName: string; 
+    userName: string; // Ensure this matches what's passed from HomeScreen
   };
   // Example if VideoPlayer were a screen:
   // VideoPlayer: { skeletonImages: number[]; fallTimestamp: string };
