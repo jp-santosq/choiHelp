@@ -6,9 +6,9 @@ const FALL_HISTORY_STORAGE_KEY = '@ElderlyMonitoringApp:fallHistory';
 
 const testUser: User = {
   id: 'test-user',
-  fullName: 'Test Senior',
+  fullName: '夏目漱石',
   age: 81,
-  photoUri: '',
+  photoUri: require('../assets/avatar2.png'),
   dateOfBirth: '1944-01-01',
   gender: 'Female',
 };

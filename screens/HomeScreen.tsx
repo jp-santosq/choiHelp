@@ -108,7 +108,7 @@ export default function HomeScreen() {
           id: user.id,
           name: user.fullName,
           age: user.age,
-          avatar: user.photoUri ? { uri: user.photoUri } : undefined,
+          avatar: user.photoUri ?? undefined,
           hasFallen: hasUnresolvedFall,
           lastFallTime,
         };
