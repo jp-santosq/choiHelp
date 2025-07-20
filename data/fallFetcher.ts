@@ -1,5 +1,5 @@
 import { supabase } from '../supabaseClient';
-import { saveFallHistory } from './mockData';
+import { saveFallHistory, loadFallHistory } from './mockData';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const fetchLatestFall = async () => {
@@ -30,21 +30,36 @@ export const fetchLatestFall = async () => {
 
   console.log('[Supabase] Public video URL:', signed?.publicUrl);
 
-  
-const newFall = {
-  ...latest,
-  videoUrl: signed?.publicUrl ?? '',
-  skeletons: [],             // fallback if not available
-  isResolved: false,  
-  timestamp: latest.detected_at,       // default status
+  const newFall = {
+    ...latest,
+    videoUrl: signed?.publicUrl ?? '',
+    skeletons: [],
+    isResolved: false,
+    timestamp: latest.detected_at,
+  };
 
-};
+  // ✅ Load previous fall to compare timestamps
+  const existing = await loadFallHistory();
+  const mostRecent = existing[0];
 
-await saveFallHistory([newFall]); // overwrites previous history
-const stored = await AsyncStorage.getItem('@ElderlyMonitoringApp:fallHistory');
-console.log('[DEBUG] Saved fallHistory:', stored);
-return {
-  ...newFall
-};
+  const isNewer =
+    !mostRecent ||
+    new Date(newFall.timestamp).getTime() > new Date(mostRecent.timestamp).getTime();
+
+  if (!isNewer) {
+    console.log('[DEBUG] Ignored older or same fall. Not saving.');
+    return null;
+  }
+
+  // ✅ Prepend new fall
+  const updatedHistory = [newFall, ...existing];
+  await saveFallHistory(updatedHistory);
+
+  const stored = await AsyncStorage.getItem('@ElderlyMonitoringApp:fallHistory');
+  console.log('[DEBUG] Saved fallHistory:', stored);
+
+  return {
+    ...newFall
+  };
 };
 
