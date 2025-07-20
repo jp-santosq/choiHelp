@@ -165,20 +165,23 @@ useFocusEffect(
     ]);
   };
 
-  const formattedFallTime = fallToShow
-    ? new Date(fallToShow.timestamp).toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-      })
-    : 'N/A';
+  const raw = fallToShow?.timestamp
 
-  const formattedFallDate = fallToShow
-    ? new Date(fallToShow.timestamp).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    : 'N/A';
+const formattedFallDate = raw
+  ? new Date(raw).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : 'N/A';
+
+const formattedFallTime = raw
+  ? new Date(raw).toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  : 'N/A';
+
 
   return (
     <View style={styles.container}>
@@ -243,7 +246,7 @@ useFocusEffect(
           style={[styles.actionButton, { backgroundColor: Colors.success }]}
           onPress={markAsResolved}
           disabled={!fallToShow || fallToShow.isResolved}
-        >l
+        >
           <MaterialCommunityIcons name="check-circle-outline" size={24} color={Colors.white} />
           <Text style={styles.actionButtonText}>Mark as Resolved</Text>
         </TouchableOpacity>

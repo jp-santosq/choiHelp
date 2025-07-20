@@ -35,15 +35,16 @@ const newFall = {
   ...latest,
   videoUrl: signed?.publicUrl ?? '',
   skeletons: [],             // fallback if not available
-  isResolved: false,         // default status
+  isResolved: false,  
+  timestamp: latest.detected_at,       // default status
+
 };
 
 await saveFallHistory([newFall]); // overwrites previous history
 const stored = await AsyncStorage.getItem('@ElderlyMonitoringApp:fallHistory');
 console.log('[DEBUG] Saved fallHistory:', stored);
 return {
-  ...newFall,
-  timestamp: latest.detected_at,
+  ...newFall
 };
 };
 
