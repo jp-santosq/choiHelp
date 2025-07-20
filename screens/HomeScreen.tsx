@@ -94,8 +94,8 @@ export default function HomeScreen() {
 
       const processedUsers: UserDisplayItem[] = storedUsers.map((user) => {
         const userFalls = fallHistory;
-        const hasUnresolvedFall = userFalls.length > 0;
-        const latestFall = hasUnresolvedFall ? userFalls[0] : null;
+        const latestFall = userFalls[0];
+        const hasUnresolvedFall = latestFall && !latestFall.isResolved;
         const raw = latestFall?.timestamp ?? latestFall?.detected_at;
         const lastFallTime = raw
           ? new Date(raw).toLocaleTimeString('en-US', {

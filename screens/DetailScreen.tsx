@@ -27,6 +27,7 @@ import {
   deleteUser,
   loadUsers,
   loadFallHistory,
+  saveFallHistory,
 } from '../data/mockData';
 import { User } from '../screens/types/User';
 import { ResizeMode, Video } from 'expo-av';
@@ -119,7 +120,7 @@ useFocusEffect(
   );
 
   const callPhoneNumber = (number: string) => Linking.openURL(`tel:${number}`);
-
+  /*
   const markAsResolved = () => {
     Alert.alert('Confirmation', 'Mark this incident as resolved?', [
       { text: 'Cancel', style: 'cancel' },
@@ -150,6 +151,20 @@ useFocusEffect(
       },
     ]);
   };
+  */
+
+  const markAsResolved = async () => {
+  if (!fallToShow) return;
+
+  const fallHistory = await loadFallHistory(); // ✅ fix: load it here
+  const updatedFall = { ...fallToShow, isResolved: true };
+  const remainingFalls = fallHistory.filter(f => f.id !== fallToShow.id);
+
+  const newHistory = [updatedFall, ...remainingFalls];
+  await saveFallHistory(newHistory);
+
+  navigation.goBack();
+};
 
   const handleDeleteUser = () => {
     Alert.alert('Delete Member', `Are you sure you want to delete ${userName}'s profile?`, [
