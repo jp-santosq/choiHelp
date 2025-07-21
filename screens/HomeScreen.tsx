@@ -130,7 +130,7 @@ export default function HomeScreen() {
     const interval = setInterval(async () => {
       await fetchLatestFall();  // always sync latest fall into storage
       await fetchUsers();       // always reload users → cards appear/refresh
-    }, 10000);
+    }, 3000);
     return () => clearInterval(interval);
   }, [fetchUsers]);
 
